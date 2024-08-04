@@ -8,6 +8,8 @@ import (
 	"os"
 	"runtime"
 	"strings"
+
+	"github.com/schollz/progressbar/v3"
 )
 
 var (
@@ -73,7 +75,7 @@ func main() {
     exitIfError(err)
 
     fmt.Println("Output copied to clipboard")
-  } else if len(outputFile) == 0 {
+  } else {
     fmt.Println()
   }
 }
@@ -98,7 +100,8 @@ func getOutputWriter() (io.Writer, error) {
       return nil, err
     }
 
-    return w, nil
+    pb := progressbar.DefaultBytes(-1, "Progress")
+    return io.MultiWriter(w, pb), nil
   }
 
   var w io.Writer
