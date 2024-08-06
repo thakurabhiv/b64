@@ -15,14 +15,14 @@
 ### Encode string
 ### ```b64 "some string"```
 ### Output:
-![Encoding](screenshots\encoding_normal.png)
+![Encoding](https://github.com/thakurabhiv/b64/blob/main/screenshots/encoding_normal.png)
 ##
 
 ### Encode file
 ### ```b64 -f clipboard.go```
 ### File content
-![File Content](screenshots\file_content.png)
+![File Content](https://github.com/thakurabhiv/b64/blob/main/screenshots/file_content.png)
 ### Output:
-![File Encoding](screenshots\file_enoding.png)
+![File Encoding](https://github.com/thakurabhiv/b64/blob/main/screenshots/file_enoding.png)
 
 # Adding More
