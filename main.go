@@ -12,9 +12,12 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
+const PB_THRESHOLD = 15*1000*1000;
+
 var (
   encode, decode, isStr, isFile, copyToClipboard bool
   outputFile string
+  inputFileSize int64
 )
 
 func main() {
@@ -75,7 +78,7 @@ func main() {
     exitIfError(err)
 
     fmt.Println("Output copied to clipboard")
-  } else {
+  } else if len(outputFile) == 0 {
     fmt.Println()
   }
 }
@@ -86,11 +89,21 @@ func getInputReader(tail string) (io.Reader, error) {
     if err != nil {
       return nil, err
     }
+    inputFileSize = getFileSize(r)
 
     return r, nil
   }
 
   return strings.NewReader(tail), nil
+}
+
+func getFileSize(f *os.File) int64 {
+  info, err := f.Stat()
+  if err == nil {
+    return info.Size()
+  }
+
+  return 0
 }
 
 func getOutputWriter() (io.Writer, error) {
@@ -100,8 +113,12 @@ func getOutputWriter() (io.Writer, error) {
       return nil, err
     }
 
-    pb := progressbar.DefaultBytes(-1, "Progress")
-    return io.MultiWriter(w, pb), nil
+    if inputFileSize != 0 && inputFileSize >= PB_THRESHOLD {
+      pb := progressbar.DefaultBytes(-1, "Progress")
+      return io.MultiWriter(w, pb), nil
+    } else {
+      return w, nil
+    }
   }
 
   var w io.Writer
