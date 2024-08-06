@@ -9,7 +9,7 @@
 ### Print usage
 ### ```b64 -h```
 ### Output:
-![Usage](screenshots\usage.png)
+![Usage](https://github.com/thakurabhiv/b64/blob/main/screenshots/usage.png)
 ##
 
 ### Encode string
